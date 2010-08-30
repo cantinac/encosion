@@ -105,7 +105,16 @@ module Encosion
             end
           end
       end
-      
+
+      def search_videos(*args)
+        options = extract_options(args)
+        if response = read('search_videos',options)
+          return response['items'].collect { |item| self.parse(item) }
+        else
+          return nil
+        end
+      end
+
       
       # Returns the status of a video upload (returns one of :uploading | :processing | :complete | :error )
       # Takes either Brightcove's video_id or your own reference_id. If you pass an integer it's assumed to be

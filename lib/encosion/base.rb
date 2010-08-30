@@ -2,6 +2,7 @@ require 'net/http'
 require 'rubygems'
 require 'httpclient'
 require 'json'
+require 'uri'
 
 module Encosion
   
@@ -42,8 +43,8 @@ module Encosion
           url += "#{server}:#{port}#{path}"
         
           options.merge!({'command' => command })
-          query_string = options.collect { |key,value| "#{key.to_s}=#{value.to_s}" }.join('&')
-          puts "#{url}#{query_string}"
+          query_string = options.collect { |key,value| "#{key.to_s}=#{URI.escape(value.to_s)}" }.join('&')
+          puts "#{url}?#{query_string}"
           response = http.get(url, query_string)
 
           header = response.header
@@ -97,7 +98,7 @@ module Encosion
       
       def api_error_check(body)
         puts body
-        unless body['error'].blank?
+        if body.include?('error')
           case body['code']
           when 103
             message = 'Brightcove Timeout -- tried 5 times to contact the API, and it returned timeout errors all five times.'
