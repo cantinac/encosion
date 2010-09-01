@@ -6,7 +6,7 @@ Encosion.options[:write_token] = ''
 # do not commit any real tokens in this code
 class MyTest < Test::Unit::TestCase
   def test_search_videos
-    result = Encosion::Video.search_videos(:all => "Sample")
+    result = Encosion::Video.search_videos(:all => "topic:learned")
     assert_not_nil result
     assert_equal 2, result.count
 
