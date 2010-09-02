@@ -215,7 +215,7 @@ module Encosion
                     :tags => obj['tags'],
                     :video_still_url => obj['videoStillURL'],
                     :thumbnail_url => obj['thumbnailURL'],
-                    :reference_id => obj['referenceID'],
+                    :reference_id => obj['referenceId'],
                     :length => obj['length'].to_i,
                     :economics => obj['economics'] ? ENUMS[:economics].find { |key,value| value == obj['economics'] }.first : nil,
                     :plays_total => obj['playsTotal'].to_i,
