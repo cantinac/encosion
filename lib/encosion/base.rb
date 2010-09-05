@@ -100,7 +100,7 @@ module Encosion
         puts body
         if body.nil?
           message = "Not Found or orther Brightcove Error"
-          raise EncosionError
+          raise EncosionError, message
         elsif body.include?('error')
           case body['code']
           when 103
