@@ -41,7 +41,12 @@ module Encosion
           http = HTTPClient.new
           http.receive_timeout = timeout
           url = secure ? 'https://' : 'http://'
-          url += "#{server}:#{port}#{path}"
+          # I've heard we shouldn't specify port on the real API
+          if port != 80
+            url += "#{server}:#{port}#{path}"
+          else
+            url += "#{server}#{path}"
+          end
         
           options.merge!({'command' => command })
           query_string = options.collect { |key,value| "#{key.to_s}=#{CGI.escape(value.to_s)}" }.join('&')
