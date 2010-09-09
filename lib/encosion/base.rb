@@ -99,7 +99,10 @@ module Encosion
       
       def api_error_check(body)
         puts body
-        if body.include?('error')
+        if body.nil?
+          message = "Not Found or orther Brightcove Error"
+          raise AssetNotFound, message
+        elsif body.include?('error')
           case body['code']
           when 103
             message = 'Brightcove Timeout -- tried 5 times to contact the API, and it returned timeout errors all five times.'
