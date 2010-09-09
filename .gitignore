@@ -1,3 +1,5 @@
 .DS_Store
 test/random.rb
 pkg
+test/live_test.rb
+.idea
