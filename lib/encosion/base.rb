@@ -3,6 +3,7 @@ require 'rubygems'
 require 'httpclient'
 require 'json'
 require 'uri'
+require 'cgi'
 
 module Encosion
   
@@ -43,7 +44,7 @@ module Encosion
           url += "#{server}:#{port}#{path}"
         
           options.merge!({'command' => command })
-          query_string = options.collect { |key,value| "#{key.to_s}=#{URI.escape(value.to_s)}" }.join('&')
+          query_string = options.collect { |key,value| "#{key.to_s}=#{CGI.escape(value.to_s)}" }.join('&')
           puts "#{url}?#{query_string}"
           response = http.get(url, query_string)
 
