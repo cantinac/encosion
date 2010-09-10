@@ -15,6 +15,7 @@ module Encosion
                   :tags, 
                   :reference_id, 
                   :economics,
+                  :custom_fields,
                   :file)
       attr_reader(:id, 
                   :account_id, 
@@ -219,7 +220,10 @@ module Encosion
                     :length => obj['length'].to_i,
                     :economics => obj['economics'] ? ENUMS[:economics].find { |key,value| value == obj['economics'] }.first : nil,
                     :plays_total => obj['playsTotal'].to_i,
-                    :plays_trailing_week => obj['playsTrailingWeek'].to_i } unless obj.nil?
+                    :plays_trailing_week => obj['playsTrailingWeek'].to_i,
+                    :custom_fields => obj['customFields']} unless obj.nil?
+
+              puts "RAW(#{obj['customFields'].class})=#{obj['customFields']}"
             return self.new(args)
           else
             return nil
@@ -249,6 +253,7 @@ module Encosion
       @economics = self.economics = args[:economics]
       @plays_total = args[:plays_total]
       @plays_trailing_week = args[:plays_trailing_week]
+      @custom_fields = args[:custom_fields]
       @file = args[:file]
     end
     

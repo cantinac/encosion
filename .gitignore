@@ -3,3 +3,4 @@ test/random.rb
 pkg
 test/live_test.rb
 .idea
+.idea/*
