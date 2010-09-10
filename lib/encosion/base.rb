@@ -51,13 +51,16 @@ module Encosion
           options.merge!({'command' => command })
           query_string = options.collect { |key,value| "#{key.to_s}=#{CGI.escape(value.to_s)}" }.join('&')
           puts "#{url}?#{query_string}"
-          response = http.get(url, query_string)
+          ext = {'Content-Type' => 'text/html;charset=UTF-8'}
+          response = http.get(url, query_string, ext)
 
           header = response.header
-        
+
           http_error_check(header)
 
-          body = response.body.content.strip == 'null' ? nil : JSON.parse(response.body.content.strip)   # if the call returns 'null' then there were no valid results
+          # Forcing encoding to UTF-8 for proper interaction with API due to HTTPClient bug
+          # http://github.com/nahi/httpclient/issues#issue/26
+          body = response.body.content.strip == 'null' ? nil : JSON.parse(response.body.content.force_encoding('UTF-8').strip)   # if the call returns 'null' then there were no valid results
         
           api_error_check(body)
         rescue EncosionError => e
