@@ -223,7 +223,6 @@ module Encosion
                     :plays_trailing_week => obj['playsTrailingWeek'].to_i,
                     :custom_fields => obj['customFields']} unless obj.nil?
 
-              puts "RAW(#{obj['customFields'].class})=#{obj['customFields']}"
             return self.new(args)
           else
             return nil
