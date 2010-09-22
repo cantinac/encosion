@@ -49,7 +49,21 @@ module Encosion
           end
         
           options.merge!({'command' => command })
-          query_string = options.collect { |key,value| "#{key.to_s}=#{CGI.escape(value.to_s)}" }.join('&')
+          query_string = options.collect { |key,value|
+            if %w{all any none}.include?(key.to_s)
+              if value.is_a?(String)
+                "#{key.to_s}=#{CGI.escape(value.to_s)}"
+              else
+                value.collect { |s|
+                  "#{key.to_s}=#{CGI.escape(s.to_s)}"
+                }.join('&')
+              end
+            elsif value.is_a?(Array)
+              "#{key.to_s}=#{value.collect{|v| CGI.escape(v.to_s)}.join(',')}"
+            else
+              "#{key.to_s}=#{CGI.escape(value.to_s)}"
+            end
+          }.join('&')
           puts "#{url}?#{query_string}"
           ext = {'Content-Type' => 'text/html;charset=UTF-8'}
           response = http.get(url, query_string, ext)
