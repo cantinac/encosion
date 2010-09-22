@@ -49,6 +49,7 @@ module Encosion
           end
         
           options.merge!({'command' => command })
+
           query_string = options.collect { |key,value|
             if %w{all any none}.include?(key.to_s)
               if value.is_a?(String)
@@ -64,7 +65,7 @@ module Encosion
               "#{key.to_s}=#{CGI.escape(value.to_s)}"
             end
           }.join('&')
-          puts "#{url}?#{query_string}"
+
           ext = {'Content-Type' => 'text/html;charset=UTF-8'}
           response = http.get(url, query_string, ext)
 
@@ -83,7 +84,6 @@ module Encosion
         rescue Exception => e
           raise e
         end        
-        # puts "url: #{url}\nquery_string:#{query_string}"
 
         return body
       end
@@ -120,7 +120,6 @@ module Encosion
       end
       
       def api_error_check(body)
-        puts body
         if body.nil?
           message = "Not Found or orther Brightcove Error"
           raise AssetNotFound, message
